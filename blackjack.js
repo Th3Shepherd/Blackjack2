@@ -130,6 +130,8 @@ function update () {
 
 class Button{
     constructor(location,width,length){
-        
+        this.location-location;
+        this.width-width;
+        this.length-length;
     }
 }
