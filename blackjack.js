@@ -135,3 +135,12 @@ class Button{
         this.length-length;
     }
 }
+
+draw(ctx);{
+    ctx.save();
+    ctx.translate(this.location[0],this.location[1]);
+    ctx.rect(-this.width/2,this.height/2,this.width,this.height);
+    ctx.fill();
+    ctx.restore();
+
+}
