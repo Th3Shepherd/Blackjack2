@@ -2,7 +2,7 @@ let canvas = document.getElementById("myCanvas");
 canvas.width = window.innerWidth - 10;
 canvas.height = window.innerHeight - 10;
 
-let contezt = canvas.getContext("2d")
+let context = canvas.getContext("2d")
 
 
 var used_cards = new Array();
@@ -128,19 +128,3 @@ function update () {
     clearCanvas()
 }
 
-class Button{
-    constructor(location,width,length){
-        this.location-location;
-        this.width-width;
-        this.length-length;
-    }
-}
-
-draw(ctx);{
-    ctx.save();
-    ctx.translate(this.location[0],this.location[1]);
-    ctx.rect(-this.width/2,this.height/2,this.width,this.height);
-    ctx.fill();
-    ctx.restore();
-
-}
