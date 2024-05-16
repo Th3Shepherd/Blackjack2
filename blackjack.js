@@ -69,17 +69,59 @@ for (let i =0; i<2; i++){
      if (reduceAce(playersum,playeracecount) >21){
         canhit = false;
      }
+    
+     console.log(playersum);
+     document.getElementById("hit").addEventListener("click", hit);
+     document.getElementById("stand").addEventListener("click", stand);
 }
 
-console.log(playersum);
-document.getElementById("hit").addEventListener("click",hit);
-document.getElementById("stand").addEventListener("click",stand);
 }
+
 
 function hit(){
-    if(!canhit){
-        return
+    if (!canhit){
+        return;
     }
+    let cardImg = document.createElement("img");
+    let card = deck.pop();
+    cardImg.src = "./KIN's_Playing_Cards/" + card + ".png"
+    playersum += getvalue(card);
+    playeracecount += checkace(card);
+    document.getElementById("player-cards").append(cardImg);
+
+    if (reduceAce(playersum, playeracecount) > 21){
+        canhit = false;
+
+    }
+
+}
+
+function stand(){
+    dealersum = reduceAce(dealersum, dealeracecount);
+    playersum = reduceAce(playersum, playeracecount);
+
+    canhit = false;
+    document.getElementById("hidden").src = "./KIN's_Playing_Cards/" + hidden +".png";
+
+    let message = "";
+    if (playersum > 21) {
+        message = "You lost!!"
+    }
+    else if (dealersum > 21) {
+        message = "You win!!"
+    }
+    else if (playersum == dealersum){
+        message = "Tie"
+    }
+    else if (playersum > dealersum){
+        message ="You win!!"
+    }
+    else if (playersum < dealersum){
+        message ="You lost!!"
+    }
+    document.getElementById("dealer-sum").innerText = dealersum;
+    document.getElementById("player-sum").innerText = playersum;
+    document.getElementById("results").innerText = message;
 }
 
 function getvalue(card){
@@ -106,6 +148,14 @@ function reduceAce(playersum,playeracecount){
     while (playersum > 21 && playeracecount>0){
         playersum -=10;
         playeracecount -=1;
+    }
+    return playersum;
+}
+
+function reduceAce(playersum, playeracecount) {
+    while (playersum > 21 && playeracecount > 0) {
+        playersum -= 10;
+        playeracecount -= 1;
     }
     return playersum;
 }
