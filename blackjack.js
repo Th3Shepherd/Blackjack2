@@ -8,6 +8,7 @@ var hidden;
 var Deck;
 
 var canhit = true; // om du är under 21 så kan då "hit"
+var cash = 1000;
 
 window.onload = function(){
     builddeck();
@@ -41,21 +42,29 @@ function shuffledeck(){
     console.log(deck)
 }
 
+
 function startgame(){
+
+    if (cash <= 0) {
+        alert("Game over! You are out of cash!");
+        return;
+    }
+    
     hidden = deck.pop();
     dealersum += getvalue(hidden);
     dealeracecount += checkace(hidden);
     console.log(hidden);
     console.log(dealersum);
-
-    while(dealersum<17){
-       let cardimg = document.createElement("img");
-       let card = deck.pop();
-        cardimg.src = "./KIN's_Playing_Cards/" + card + ".png";
-        dealersum += getvalue(card);
-        dealeracecount += checkace(card);
-        document.getElementById("dealer-cards").append(cardimg);
+    
+    for (let i =0; i<1; i++){
+        let cardimg = document.createElement("img");
+        let card = deck.pop();
+         cardimg.src = "./KIN's_Playing_Cards/" + card + ".png";
+         dealersum += getvalue(card);
+         dealeracecount += checkace(card);
+         document.getElementById("dealer-cards").append(cardimg);
     }
+    
 console.log(dealersum);
 
 for (let i =0; i<2; i++){
@@ -66,15 +75,14 @@ for (let i =0; i<2; i++){
      playeracecount += checkace(card);
      document.getElementById("player-cards").append(cardimg);
 
-     if (reduceAce(playersum,playeracecount) >21){
-        canhit = false;
-     }
+if (reduceAce(playersum,playeracecount) >21){
+    canhit = false;
+    }
     
      console.log(playersum);
      document.getElementById("hit").addEventListener("click", hit);
      document.getElementById("stand").addEventListener("click", stand);
 }
-
 }
 
 
@@ -97,31 +105,50 @@ function hit(){
 }
 
 function stand(){
-    dealersum = reduceAce(dealersum, dealeracecount);
-    playersum = reduceAce(playersum, playeracecount);
+
+    while(dealersum<17){
+        let cardimg = document.createElement("img");
+        let card = deck.pop();
+         cardimg.src = "./KIN's_Playing_Cards/" + card + ".png";
+         dealersum += getvalue(card);
+         dealeracecount += checkace(card);
+         document.getElementById("dealer-cards").append(cardimg);
+     }
+ 
 
     canhit = false;
     document.getElementById("hidden").src = "./KIN's_Playing_Cards/" + hidden +".png";
 
     let message = "";
     if (playersum > 21) {
-        message = "You lost!!"
+        message = "You lost"
+        cash -= 100;
     }
     else if (dealersum > 21) {
-        message = "You win!!"
+        message = "You win"
+        cash += 100;
     }
     else if (playersum == dealersum){
         message = "Tie"
     }
     else if (playersum > dealersum){
-        message ="You win!!"
+        message ="You win"
+        cash += 100;
     }
     else if (playersum < dealersum){
-        message ="You lost!!"
+        message ="You lost"
+        cash -= 100;
     }
     document.getElementById("dealer-sum").innerText = dealersum;
     document.getElementById("player-sum").innerText = playersum;
     document.getElementById("results").innerText = message;
+    updateCash();
+
+
+}
+
+function updateCash() {
+    document.getElementById("cash").innerText = "Cash: $" + cash;
 }
 
 function getvalue(card){
@@ -142,14 +169,6 @@ function checkace(card){
         return 1;
     }
     return 0;
-}
-
-function reduceAce(playersum,playeracecount){
-    while (playersum > 21 && playeracecount>0){
-        playersum -=10;
-        playeracecount -=1;
-    }
-    return playersum;
 }
 
 function reduceAce(playersum, playeracecount) {
