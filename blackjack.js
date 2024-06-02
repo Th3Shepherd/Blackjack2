@@ -45,6 +45,14 @@ function shuffledeck(){
 
 function startgame(){
 
+
+    dealersum = 0;
+    playersum = 0;
+    dealeracecount = 0;
+    playeracecount = 0;
+    
+
+    
     if (cash <= 0) {
         alert("Game over! You are out of cash!");
         return;
@@ -82,6 +90,7 @@ if (reduceAce(playersum,playeracecount) >21){
      console.log(playersum);
      document.getElementById("hit").addEventListener("click", hit);
      document.getElementById("stand").addEventListener("click", stand);
+    
 }
 }
 
@@ -178,3 +187,4 @@ function reduceAce(playersum, playeracecount) {
     }
     return playersum;
 }
+
