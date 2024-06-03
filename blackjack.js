@@ -14,6 +14,7 @@ window.onload = function(){
     builddeck();
     shuffledeck();
     startgame();
+    document.getElementById("next-round").addEventListener("click", nextRound);
 }
 
 function builddeck(){
@@ -42,17 +43,25 @@ function shuffledeck(){
     console.log(deck)
 }
 
+function removeCardImages(elementId) {
+    let cardContainer = document.getElementById(elementId);
+    while (cardContainer.firstChild) {
+        if (cardContainer.firstChild.tagName === "IMG") {
+            cardContainer.removeChild(cardContainer.firstChild);
+        } else {
+            break; 
+        }
+    }
+}
 
 function startgame(){
-
-
-    dealersum = 0;
     playersum = 0;
-    dealeracecount = 0;
+    dealersum = 0;
     playeracecount = 0;
-    
+    dealeracecount = 0;
 
-    
+    canhit = true;
+
     if (cash <= 0) {
         alert("Game over! You are out of cash!");
         return;
@@ -63,7 +72,11 @@ function startgame(){
     dealeracecount += checkace(hidden);
     console.log(hidden);
     console.log(dealersum);
-    
+
+    removeCardImages("dealer-cards");
+    removeCardImages("player-cards");
+
+
     for (let i =0; i<1; i++){
         let cardimg = document.createElement("img");
         let card = deck.pop();
@@ -159,6 +172,7 @@ function stand(){
 function updateCash() {
     document.getElementById("cash").innerText = "Cash: $" + cash;
 }
+
 
 function getvalue(card){
     let data = card.split("_"); //Bryter upp kortet  4_Clubs ->  ["4", "Clubs"]
